@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .shared-width {
+        @apply w-11/12 max-w-screen-2xl;
+    }
+}
