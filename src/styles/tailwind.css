@@ -4,6 +4,6 @@
 
 @layer components {
     .shared-width {
-        @apply w-11/12 max-w-screen-2xl;
+        @apply w-11/12 max-w-screen-2xl mx-auto;
     }
 }

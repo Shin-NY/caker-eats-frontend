@@ -1,7 +1,46 @@
 import { gql } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import Header from "../Components/Header";
 import Loading from "../Components/Loading";
-import { useSeeRestaurantsQuery } from "../generated/graphql";
+import RestaurantGrid from "../Components/RestaurantGrid";
+import {
+  useSeeCategoriesQuery,
+  useSeeCategoryLazyQuery,
+  useSeeRestaurantsQuery,
+} from "../generated/graphql";
+
+gql`
+  query SeeCategory($input: SeeCategoryInput!) {
+    seeCategory(input: $input) {
+      ok
+      error
+      totalPages
+      result {
+        id
+        restaurants {
+          id
+          name
+          imageUrl
+        }
+      }
+    }
+  }
+`;
+
+gql`
+  query SeeCategories {
+    seeCategories {
+      ok
+      error
+      result {
+        id
+        name
+        slug
+        imageUrl
+      }
+    }
+  }
+`;
 
 gql`
   query SeeRestaurants($input: SeeRestaurantsInput!) {
@@ -19,12 +58,30 @@ gql`
 `;
 
 const Home = () => {
-  const { data, loading } = useSeeRestaurantsQuery({
-    variables: { input: { page: 1 } },
-  });
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const { data: SeeCategoriesData, loading: SeeCategoriesLoading } =
+    useSeeCategoriesQuery();
+  const { data: seeRestaurantsData, loading: seeRestaurantsLoading } =
+    useSeeRestaurantsQuery({
+      variables: { input: { page: 1 } },
+    });
+  const [
+    seeCategoryQuery,
+    { data: seeCategoryData, loading: seeCategoryLoading },
+  ] = useSeeCategoryLazyQuery();
+
+  const onClickCategory = (slug: string) => {
+    if (selectedCategory === slug) {
+      setSelectedCategory(undefined);
+    } else {
+      setSelectedCategory(slug);
+      seeCategoryQuery({ variables: { input: { page: 1, slug } } });
+    }
+  };
 
   return (
     <div>
+      <Header />
       <div className="flex justify-center w-full py-32 bg-yellow-400">
         <div className="shared-width">
           <h1 className=" text-4xl font-bold">Order cake to your door</h1>
@@ -36,30 +93,43 @@ const Home = () => {
           </form>
         </div>
       </div>
-      <div className=" flex justify-center">
-        <div className="py-16 shared-width">
-          {loading ? (
-            <Loading />
-          ) : (
-            <div className=" grid grid-cols-3 gap-6">
-              {data?.seeRestaurants.result?.map(restaurant => (
-                <Link
-                  to={`/restaurants/${restaurant.id}`}
-                  className=" flex  flex-col"
-                >
-                  <img
-                    className="rounded-sm w-full h-48 object-cover"
-                    src={restaurant.imageUrl || ""}
-                    alt=""
-                  />
-                  <h2 className="mt-1 text-lg font-medium">
-                    {restaurant.name}
-                  </h2>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="mt-16">
+        {SeeCategoriesLoading ? (
+          <Loading />
+        ) : (
+          <div className="shared-width grid grid-cols-6 gap-6">
+            {SeeCategoriesData?.seeCategories.result?.map(category => (
+              <button
+                key={category.id}
+                onClick={() => onClickCategory(category.slug)}
+                className={`${
+                  category.slug === selectedCategory &&
+                  "translate duration-200 scale-95 shadow-xl"
+                } rounded-full overflow-hidden flex justify-between h-16 bg-red-50`}
+              >
+                <h3 className="mt-4 ml-6 font-medium">{category.name}</h3>
+                <img
+                  className="h-full w-20 object-cover"
+                  src={category.imageUrl || ""}
+                  alt=""
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="py-16 shared-width">
+        {seeRestaurantsLoading || seeCategoryLoading ? (
+          <Loading />
+        ) : selectedCategory ? (
+          <RestaurantGrid
+            restaurants={seeCategoryData?.seeCategory.result?.restaurants || []}
+          />
+        ) : (
+          <RestaurantGrid
+            restaurants={seeRestaurantsData?.seeRestaurants.result || []}
+          />
+        )}
       </div>
     </div>
   );
