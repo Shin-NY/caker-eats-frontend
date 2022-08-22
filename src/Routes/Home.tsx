@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
 import RestaurantGrid from "../Components/RestaurantGrid";
@@ -57,7 +59,13 @@ gql`
   }
 `;
 
+interface IForm {
+  key: string;
+}
+
 const Home = () => {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<IForm>();
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const { data: SeeCategoriesData, loading: SeeCategoriesLoading } =
     useSeeCategoriesQuery();
@@ -79,14 +87,25 @@ const Home = () => {
     }
   };
 
+  const onValid: SubmitHandler<IForm> = ({ key }) => {
+    navigate(`/search/${key}`);
+  };
+
   return (
     <div>
       <Header />
       <div className="flex justify-center w-full py-32 bg-yellow-400">
         <div className="shared-width">
           <h1 className=" text-4xl font-bold">Order cake to your door</h1>
-          <form className=" flex items-center gap-2 mt-10 text-md">
-            <input className=" outline-none py-3 px-4 w-96 shadow-sm transition duration-300 border-b-2 border-b-white focus:border-b-black" />
+          <form
+            onSubmit={handleSubmit(onValid)}
+            className=" flex items-center gap-2 mt-10 text-md"
+          >
+            <input
+              placeholder="Search restaurants..."
+              {...register("key", { required: true })}
+              className=" outline-none py-3 px-4 w-96 shadow-sm transition duration-300 border-b-2 border-b-white focus:border-b-black"
+            />
             <button className="font-semibold rounded py-3 px-4 shadow-sm bg-black text-white">
               Find
             </button>
