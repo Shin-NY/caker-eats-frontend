@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
 import { useLoginMutation } from "../generated/graphql";
-import { tokenVar } from "../variables";
+import { LS_TOKEN, tokenVar } from "../variables";
 
 gql`
   mutation login($input: LoginInput!) {
@@ -35,6 +35,7 @@ const Login = () => {
     onCompleted: ({ login: { ok, token, error } }) => {
       if (ok && token) {
         tokenVar(token);
+        localStorage.setItem(LS_TOKEN, token);
         navigate("/");
       }
       if (error) setLoginError(error);
