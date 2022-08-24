@@ -1,13 +1,19 @@
 import { gql } from "@apollo/client";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
-import { useSeeCategoriesQuery } from "../generated/graphql";
+import {
+  useCreateRestaurantMutation,
+  useSeeCategoriesQuery,
+} from "../generated/graphql";
 
 gql`
   mutation CreateRestaurant($input: CreateRestaurantInput!) {
     createRestaurant(input: $input) {
       ok
+      restaurantId
       error
     }
   }
@@ -20,25 +26,37 @@ interface IForm {
 }
 
 const CreateRestaurant = () => {
+  const navigate = useNavigate();
+  const [createError, setCreateError] = useState("");
   const { data: categoriesData, loading: categoriesLoading } =
     useSeeCategoriesQuery();
+  const [createRestaurantMutation, { loading: createLoading }] =
+    useCreateRestaurantMutation({
+      onCompleted: ({ createRestaurant: { ok, restaurantId, error } }) => {
+        if (ok) navigate(`/restaurants/${restaurantId}`);
+        if (error) setCreateError(error);
+      },
+    });
 
-  const { register, handleSubmit } = useForm<IForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>();
 
   const onValid: SubmitHandler<IForm> = async ({
     name,
     image,
     categorySlug,
   }) => {
-    const formData = new FormData();
+    /* const formData = new FormData();
     formData.append("image", image[0]);
     const res = await fetch("http://localhost:4000/upload", {
       method: "POST",
       body: formData,
       mode: "no-cors",
-    });
-
-    console.log(res);
+    }); */
+    createRestaurantMutation({ variables: { input: { name, categorySlug } } });
   };
 
   return categoriesLoading ? (
@@ -57,6 +75,7 @@ const CreateRestaurant = () => {
             className="input"
             placeholder="Restaurant name"
           />
+          {errors.name && <span className="error">{errors.name.message}</span>}
 
           <label className="mt-3">Restaurant image</label>
           <input
@@ -77,10 +96,14 @@ const CreateRestaurant = () => {
               </option>
             ))}
           </select>
+          {errors.categorySlug && (
+            <span className="error">{errors.categorySlug.message}</span>
+          )}
 
           <button onClick={handleSubmit(onValid)} className="button">
-            Create restaurant
+            {createLoading ? <Loading /> : "Create restaurant"}
           </button>
+          {createError && <span className="error">{createError}</span>}
         </form>
       </div>
     </div>

@@ -8,12 +8,14 @@ import CreateRestaurant from "../Routes/CreateRestaurant";
 import RestaurantDetail from "../Routes/RestaurantDetail";
 import Search from "../Routes/Search";
 import Signup from "../Routes/Signup";
+import CreateDish from "../Routes/CreateDish";
 
 const Router = () => {
   const { data: meData, loading: meLoading } = useMe();
 
   const ownerRoutes = [
     <Route key={1} path="/create-restaurant" element={<CreateRestaurant />} />,
+    <Route key={2} path="/create-dish" element={<CreateDish />} />,
   ];
 
   return meLoading ? (

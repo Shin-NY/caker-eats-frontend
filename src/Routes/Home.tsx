@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
 import RestaurantGrid from "../Components/RestaurantGrid";
@@ -150,6 +151,7 @@ const Home = () => {
           />
         )}
       </div>
+      <Footer />
     </div>
   );
 };
