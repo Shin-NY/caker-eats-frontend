@@ -49,23 +49,28 @@ const Header = () => {
         <div className="flex items-center justify-end gap-4 text-xs font-medium">
           {token ? (
             <>
+              <Link
+                to={"/orders"}
+                className="py-2 px-4  bg-gray-200 rounded-full"
+              >
+                My orders
+              </Link>
               {meData?.seeMe.result?.role === UserRole.Owner &&
-              meData.seeMe.result.restaurantId ? (
-                <Link
-                  to={`/restaurants/${meData.seeMe.result.restaurantId}`}
-                  className="py-2 px-4  bg-gray-200 rounded-full"
-                >
-                  My restaurant
-                </Link>
-              ) : (
-                <Link
-                  to={"create-restaurant"}
-                  className="py-2 px-4  bg-gray-200 rounded-full"
-                >
-                  Create restaurant
-                </Link>
-              )}
-
+                (meData.seeMe.result.restaurantId ? (
+                  <Link
+                    to={`/restaurants/${meData.seeMe.result.restaurantId}`}
+                    className="py-2 px-4  bg-gray-200 rounded-full"
+                  >
+                    My restaurant
+                  </Link>
+                ) : (
+                  <Link
+                    to={"create-restaurant"}
+                    className="py-2 px-4  bg-gray-200 rounded-full"
+                  >
+                    Create restaurant
+                  </Link>
+                ))}
               <button
                 onClick={logOut}
                 className="py-2 px-4  bg-gray-200 rounded-full"
