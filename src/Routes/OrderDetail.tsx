@@ -3,7 +3,22 @@ import { useParams } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
-import { useSeeOrderQuery } from "../generated/graphql";
+import {
+  OrderStatus,
+  useEditOrderStatusMutation,
+  UserRole,
+  useSeeOrderQuery,
+} from "../generated/graphql";
+import useMe from "../hooks/useMe";
+
+gql`
+  mutation EditOrderStatus($input: EditOrderStatusInput!) {
+    editOrderStatus(input: $input) {
+      ok
+      error
+    }
+  }
+`;
 
 gql`
   query SeeOrder($input: SeeOrderInput!) {
@@ -45,12 +60,37 @@ gql`
 `;
 
 const OrderDetail = () => {
+  const { data: meData, loading: meLoading } = useMe();
   const { id: orderId } = useParams();
   const { data: orderData, loading: orderLoading } = useSeeOrderQuery({
     variables: { input: { orderId: +(orderId || "0") } },
   });
 
-  return orderLoading ? (
+  const [editOrderStatusMutation, { loading: editLoading }] =
+    useEditOrderStatusMutation();
+
+  let nextStatus: OrderStatus | null = null;
+  if (meData?.seeMe.result?.role === UserRole.Owner) {
+    if (orderData?.seeOrder.result?.status === OrderStatus.Pending)
+      nextStatus = OrderStatus.Cooking;
+    else if (orderData?.seeOrder.result?.status === OrderStatus.Cooking)
+      nextStatus = OrderStatus.Cooked;
+  } else if (meData?.seeMe.result?.role === UserRole.Driver) {
+    if (orderData?.seeOrder.result?.status === OrderStatus.PickedUp)
+      nextStatus = OrderStatus.Delivered;
+  }
+
+  const onEdit = () => {
+    if (!editLoading && nextStatus) {
+      editOrderStatusMutation({
+        variables: {
+          input: { orderId: +(orderId || "0"), status: nextStatus },
+        },
+      });
+    }
+  };
+
+  return orderLoading || meLoading ? (
     <Loading />
   ) : (
     <div>
@@ -93,7 +133,20 @@ const OrderDetail = () => {
           <h4 className="font-medium">Location</h4>
           <h4>{orderData?.seeOrder.result?.location}</h4>
         </div>
-        <h3 className="mt-6 button text-center">
+        <h3
+          {...(nextStatus && {
+            style: {
+              cursor: "pointer",
+            },
+            onClick: onEdit,
+            onMouseOver: e =>
+              (e.currentTarget.innerText = `Change to ${nextStatus}` || ""),
+            onMouseLeave: e =>
+              (e.currentTarget.innerText =
+                orderData?.seeOrder.result?.status || ""),
+          })}
+          className="mt-6 button text-center"
+        >
           {orderData?.seeOrder.result?.status}
         </h3>
         <h5 className="text-xs mt-4">

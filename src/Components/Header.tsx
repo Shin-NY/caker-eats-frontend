@@ -1,6 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { client } from "../apollo";
 import { UserRole } from "../generated/graphql";
 import useMe from "../hooks/useMe";
 import { LS_TOKEN, tokenVar } from "../variables";
@@ -23,6 +24,7 @@ const Header = () => {
   const logOut = () => {
     tokenVar("");
     localStorage.setItem(LS_TOKEN, "");
+    client.cache.reset();
     navigate("/");
   };
 
@@ -71,6 +73,14 @@ const Header = () => {
                     Create restaurant
                   </Link>
                 ))}
+              {meData?.seeMe.result?.role === UserRole.Driver && (
+                <Link
+                  to={"/cooked-orders"}
+                  className="py-2 px-4  bg-gray-200 rounded-full"
+                >
+                  Cooked orders
+                </Link>
+              )}
               <button
                 onClick={logOut}
                 className="py-2 px-4  bg-gray-200 rounded-full"

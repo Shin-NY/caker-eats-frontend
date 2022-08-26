@@ -11,6 +11,7 @@ import Signup from "../Routes/Signup";
 import CreateDish from "../Routes/CreateDish";
 import OrderDetail from "../Routes/OrderDetail";
 import Orders from "../Routes/Orders";
+import CookedOrders from "../Routes/CookedOrders";
 
 const Router = () => {
   const { data: meData, loading: meLoading } = useMe();
@@ -18,6 +19,10 @@ const Router = () => {
   const ownerRoutes = [
     <Route key={1} path="/create-restaurant" element={<CreateRestaurant />} />,
     <Route key={2} path="/create-dish" element={<CreateDish />} />,
+  ];
+
+  const driverRoutes = [
+    <Route key={1} path="/cooked-orders" element={<CookedOrders />} />,
   ];
 
   return meLoading ? (
@@ -33,6 +38,7 @@ const Router = () => {
         <Route path="/orders/:id" element={<OrderDetail />} />
         <Route path="/orders" element={<Orders />} />
         {meData?.seeMe.result?.role === UserRole.Owner && ownerRoutes}
+        {meData?.seeMe.result?.role === UserRole.Driver && driverRoutes}
       </Routes>
     </BrowserRouter>
   );
