@@ -31,7 +31,8 @@
     "start": "react-scripts start",
     "prestart": "npm run tailwind:build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --verbose",
+    "test:cov": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "codegen": "graphql-codegen --config codegen.yml"
   },
@@ -59,5 +60,12 @@
     "@graphql-codegen/typescript-operations": "2.5.3",
     "@graphql-codegen/typescript-react-apollo": "3.3.3",
     "tailwindcss": "^3.1.8"
+  },
+  "jext":{
+    "collectCoverageFrom": [
+      "./src/Components/**/*.tsx",
+      "./src/Routers/**/*.tsx",
+      "./src/Routes/**/*.tsx"
+    ]
   }
 }

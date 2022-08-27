@@ -1,13 +1,11 @@
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./apollo";
+import { useReactiveVar } from "@apollo/client";
+import LoggedOutRouter from "./Routers/LoggedOutRouter";
 import Router from "./Routers/Router";
+import { tokenVar } from "./variables";
 
 function App() {
-  return (
-    <ApolloProvider client={client}>
-      <Router />
-    </ApolloProvider>
-  );
+  const token = useReactiveVar(tokenVar);
+  return token ? <Router /> : <LoggedOutRouter />;
 }
 
 export default App;

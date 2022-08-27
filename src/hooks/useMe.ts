@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { useSeeMeQuery } from "../generated/graphql";
+import { gql, QueryHookOptions } from "@apollo/client";
+import { Exact, SeeMeQuery, useSeeMeQuery } from "../generated/graphql";
 
 gql`
   query seeMe {
@@ -16,8 +16,15 @@ gql`
   }
 `;
 
-const useMe = () => {
-  return useSeeMeQuery();
+const useMe = (
+  options?: QueryHookOptions<
+    SeeMeQuery,
+    Exact<{
+      [key: string]: never;
+    }>
+  >
+) => {
+  return useSeeMeQuery(options);
 };
 
 export default useMe;

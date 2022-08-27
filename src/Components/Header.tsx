@@ -1,10 +1,9 @@
 import { useReactiveVar } from "@apollo/client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { client } from "../apollo";
 import { UserRole } from "../generated/graphql";
 import useMe from "../hooks/useMe";
-import { LS_TOKEN, tokenVar } from "../variables";
+import { onLogOut, tokenVar } from "../variables";
 import Loading from "./Loading";
 
 interface IForm {
@@ -21,10 +20,8 @@ const Header = () => {
     navigate(`/search/${key}`);
   };
 
-  const logOut = () => {
-    tokenVar("");
-    localStorage.setItem(LS_TOKEN, "");
-    client.cache.reset();
+  const onClickLogout = () => {
+    onLogOut();
     navigate("/");
   };
 
@@ -42,11 +39,13 @@ const Header = () => {
           </Link>
         </div>
         <form onSubmit={handleSubmit(onValid)}>
-          <input
-            placeholder="Search restaurants..."
-            {...register("key", { required: true })}
-            className="transition duration-200 focus:shadow-md py-2 px-6 w-full bg-gray-200 rounded-full outline-none"
-          />
+          {(!token || meData?.seeMe.result?.role === UserRole.Customer) && (
+            <input
+              placeholder="Search restaurants..."
+              {...register("key", { required: true })}
+              className="transition duration-200 focus:shadow-md py-2 px-6 w-full bg-gray-200 rounded-full outline-none"
+            />
+          )}
         </form>
         <div className="flex items-center justify-end gap-4 text-xs font-medium">
           {token ? (
@@ -58,31 +57,21 @@ const Header = () => {
                 My orders
               </Link>
               {meData?.seeMe.result?.role === UserRole.Owner &&
-                (meData.seeMe.result.restaurantId ? (
-                  <Link
-                    to={`/restaurants/${meData.seeMe.result.restaurantId}`}
-                    className="py-2 px-4  bg-gray-200 rounded-full"
-                  >
-                    My restaurant
-                  </Link>
-                ) : (
+                !meData.seeMe.result.restaurantId && (
                   <Link
                     to={"create-restaurant"}
                     className="py-2 px-4  bg-gray-200 rounded-full"
                   >
                     Create restaurant
                   </Link>
-                ))}
+                )}
               {meData?.seeMe.result?.role === UserRole.Driver && (
-                <Link
-                  to={"/cooked-orders"}
-                  className="py-2 px-4  bg-gray-200 rounded-full"
-                >
+                <Link to={"/"} className="py-2 px-4  bg-gray-200 rounded-full">
                   Cooked orders
                 </Link>
               )}
               <button
-                onClick={logOut}
+                onClick={onClickLogout}
                 className="py-2 px-4  bg-gray-200 rounded-full"
               >
                 Log out
