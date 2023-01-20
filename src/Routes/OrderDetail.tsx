@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import { client } from "../apollo";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
@@ -65,10 +66,6 @@ const OrderDetail = () => {
   const { data: orderData, loading: orderLoading } = useSeeOrderQuery({
     variables: { input: { orderId: +(orderId || "0") } },
   });
-
-  const [editOrderStatusMutation, { loading: editLoading }] =
-    useEditOrderStatusMutation();
-
   let nextStatus: OrderStatus | null = null;
   if (meData?.seeMe.result?.role === UserRole.Owner) {
     if (orderData?.seeOrder.result?.status === OrderStatus.Pending)
@@ -79,6 +76,22 @@ const OrderDetail = () => {
     if (orderData?.seeOrder.result?.status === OrderStatus.PickedUp)
       nextStatus = OrderStatus.Delivered;
   }
+
+  const [editOrderStatusMutation, { loading: editLoading }] =
+    useEditOrderStatusMutation({
+      onCompleted: ({ editOrderStatus: { ok } }) => {
+        if (ok) {
+          client.cache.modify({
+            id: `Order:${orderId}`,
+            fields: {
+              status() {
+                return nextStatus;
+              },
+            },
+          });
+        }
+      },
+    });
 
   const onEdit = () => {
     if (!editLoading && nextStatus) {

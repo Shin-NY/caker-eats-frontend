@@ -5,6 +5,7 @@ import Loading from "../Components/Loading";
 import useMe from "../hooks/useMe";
 import { useCreateDishMutation } from "../generated/graphql";
 import { useNavigate } from "react-router-dom";
+import { uploadImage } from "../utils";
 
 gql`
   mutation CreateDish($input: CreateDishInput!) {
@@ -33,7 +34,7 @@ const CreateDish = () => {
   const [createDishMutation, { loading: createLoading }] =
     useCreateDishMutation({
       onCompleted: ({ createDish: { ok, error } }) => {
-        if (ok) navigate(`/restaurants/${meData?.seeMe.result?.restaurantId}`);
+        if (ok) navigate(`/`);
         if (error) setCreateError(error);
       },
     });
@@ -43,7 +44,7 @@ const CreateDish = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IForm>();
-  const onValid: SubmitHandler<IForm> = ({
+  const onValid: SubmitHandler<IForm> = async ({
     name,
     price,
     description,
@@ -51,15 +52,19 @@ const CreateDish = () => {
     ...rest
   }) => {
     if (meData?.seeMe.result?.restaurantId && !createLoading) {
-      //get image url
+      const { ok, url } = await uploadImage(image[0]);
       const options = optionKeys.map(optionKey => {
         const name = rest[`option-name-${optionKey}`];
         const extra = +rest[`option-extra-${optionKey}`];
         return { name, extra };
       });
-      createDishMutation({
-        variables: { input: { name, price: +price, description, options } },
-      });
+      if (ok) {
+        createDishMutation({
+          variables: {
+            input: { name, imageUrl: url, price: +price, description, options },
+          },
+        });
+      }
     }
   };
 

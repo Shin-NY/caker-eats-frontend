@@ -8,6 +8,7 @@ import {
   useCreateRestaurantMutation,
   useSeeCategoriesQuery,
 } from "../generated/graphql";
+import { uploadImage } from "../utils";
 
 gql`
   mutation CreateRestaurant($input: CreateRestaurantInput!) {
@@ -32,8 +33,8 @@ const CreateRestaurant = () => {
     useSeeCategoriesQuery();
   const [createRestaurantMutation, { loading: createLoading }] =
     useCreateRestaurantMutation({
-      onCompleted: ({ createRestaurant: { ok, restaurantId, error } }) => {
-        if (ok) navigate(`/restaurants/${restaurantId}`);
+      onCompleted: ({ createRestaurant: { ok, error } }) => {
+        if (ok) navigate(`/`);
         if (error) setCreateError(error);
       },
     });
@@ -49,14 +50,12 @@ const CreateRestaurant = () => {
     image,
     categorySlug,
   }) => {
-    /* const formData = new FormData();
-    formData.append("image", image[0]);
-    const res = await fetch("http://localhost:4000/upload", {
-      method: "POST",
-      body: formData,
-      mode: "no-cors",
-    }); */
-    createRestaurantMutation({ variables: { input: { name, categorySlug } } });
+    const { ok, url } = await uploadImage(image[0]);
+    if (ok) {
+      createRestaurantMutation({
+        variables: { input: { imageUrl: url, name, categorySlug } },
+      });
+    }
   };
 
   return categoriesLoading ? (

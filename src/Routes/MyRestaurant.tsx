@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading";
@@ -31,8 +32,9 @@ gql`
 `;
 
 const MyRestaurant = () => {
+  const navigate = useNavigate();
   const [seeRestaurantQuery, { data, loading }] = useSeeRestaurantLazyQuery();
-  const { loading: meLoading } = useMe({
+  const { data: meData, loading: meLoading } = useMe({
     onCompleted: ({ seeMe: { result } }) => {
       if (result?.restaurantId)
         seeRestaurantQuery({
@@ -48,6 +50,13 @@ const MyRestaurant = () => {
       <Header />
       {loading || meLoading ? (
         <Loading />
+      ) : !meData?.seeMe.result?.restaurantId ? (
+        <div className="w-full h-72 flex justify-center items-center flex-col gap-2">
+          <h3 className=" text-lg font-medium">You don't have a restaurant</h3>
+          <Link to={"/create-restaurant"}>
+            <button className="button">Create restaurant</button>
+          </Link>
+        </div>
       ) : (
         <div>
           <img
@@ -60,7 +69,14 @@ const MyRestaurant = () => {
               <h1 className="mt-4 mr-8 text-3xl font-bold">
                 {data?.seeRestaurant.result?.name}
               </h1>
-
+              <div>
+                <button
+                  onClick={() => navigate("/create-dish")}
+                  className="button w-32 mt-6"
+                >
+                  New dish
+                </button>
+              </div>
               <div className="py-16 grid grid-cols-4 gap-6">
                 {data?.seeRestaurant.result?.menu.map(dish => (
                   <div

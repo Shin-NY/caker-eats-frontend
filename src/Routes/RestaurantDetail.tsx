@@ -148,16 +148,6 @@ const RestaurantDetail = () => {
                   </div>
                 </div>
               )}
-              {id === "" + meData?.seeMe.result?.restaurantId && (
-                <div>
-                  <button
-                    onClick={() => navigate("/create-dish")}
-                    className="button w-32 mt-6"
-                  >
-                    New dish
-                  </button>
-                </div>
-              )}
               <div className="py-16 grid grid-cols-4 gap-6">
                 {data?.seeRestaurant.result?.menu.map(dish => (
                   <div

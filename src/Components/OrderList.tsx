@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Order,
   OrderStatus,
@@ -11,6 +11,7 @@ gql`
   mutation PickupOrder($input: PickupOrderInput!) {
     pickupOrder(input: $input) {
       ok
+      orderId
       error
     }
   }
@@ -37,8 +38,15 @@ const OrderList = ({
         status: OrderStatus;
       }>;
 }) => {
+  const navigate = useNavigate();
   const [pickupOrderMutation, { loading: pickupLoading }] =
-    usePickupOrderMutation();
+    usePickupOrderMutation({
+      onCompleted: ({ pickupOrder: { ok, orderId } }) => {
+        if (ok && orderId) {
+          navigate(`orders/${orderId}`);
+        }
+      },
+    });
 
   const onPickup = (orderId: number) => {
     if (!pickupLoading) {
@@ -46,13 +54,21 @@ const OrderList = ({
     }
   };
 
+  const onClickOrder = (id: number) => {
+    if (id) {
+      navigate(`/orders/${id}`);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4 mt-4">
       {orders.map(order => (
-        <Link
-          to={`/orders/${order.id}`}
+        <div
+          onClick={() => (isCookedOrders ? null : onClickOrder(order?.id!))}
           key={order.id}
-          className="p-4 border border-black rounded grid grid-cols-2 "
+          className={`${
+            !isCookedOrders && "cursor-pointer"
+          } p-4 border border-black rounded grid grid-cols-2`}
         >
           <div>
             <h3 className=" font-semibold">
@@ -73,7 +89,7 @@ const OrderList = ({
             )}
             <h4 className="text-xs">{order.createdAt}</h4>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );

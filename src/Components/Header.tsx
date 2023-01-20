@@ -59,7 +59,7 @@ const Header = () => {
               {meData?.seeMe.result?.role === UserRole.Owner &&
                 !meData.seeMe.result.restaurantId && (
                   <Link
-                    to={"create-restaurant"}
+                    to={"/create-restaurant"}
                     className="py-2 px-4  bg-gray-200 rounded-full"
                   >
                     Create restaurant
