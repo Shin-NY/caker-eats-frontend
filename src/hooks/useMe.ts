@@ -1,7 +1,7 @@
 import { gql, QueryHookOptions } from "@apollo/client";
 import { Exact, SeeMeQuery, useSeeMeQuery } from "../generated/graphql";
 
-gql`
+export const SeeMeQueryDoc = gql`
   query seeMe {
     seeMe {
       ok

@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../Routes/Home";
-import Login from "../Routes/Login";
-import RestaurantDetail from "../Routes/RestaurantDetail";
-import Search from "../Routes/Search";
-import Signup from "../Routes/Signup";
+import Home from "../routes/Home";
+import Login from "../routes/Login";
+import RestaurantDetail from "../routes/RestaurantDetail";
+import Search from "../routes/Search";
+import Signup from "../routes/Signup";
 
 const LoggedOutRouter = () => {
   return (

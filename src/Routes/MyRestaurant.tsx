@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
-import Loading from "../Components/Loading";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Loading from "../components/Loading";
 import { useSeeRestaurantLazyQuery } from "../generated/graphql";
 import useMe from "../hooks/useMe";
 

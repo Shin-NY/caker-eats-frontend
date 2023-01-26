@@ -1,10 +1,6 @@
 import { gql } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import {
-  Order,
-  OrderStatus,
-  usePickupOrderMutation,
-} from "../generated/graphql";
+import { SeeOrdersQuery, usePickupOrderMutation } from "../generated/graphql";
 import Loading from "./Loading";
 
 gql`
@@ -19,24 +15,10 @@ gql`
 
 const OrderList = ({
   orders,
-  isCookedOrders,
+  isCookedOrders = false,
 }: {
-  isCookedOrders: boolean;
-  orders:
-    | Partial<Order>[]
-    | Array<{
-        __typename?: "Order";
-        id: number;
-        createdAt: any;
-        location: string;
-        customer?: { __typename?: "User"; id: number; email: string } | null;
-        restaurant?: {
-          __typename?: "Restaurant";
-          id: number;
-          name: string;
-        } | null;
-        status: OrderStatus;
-      }>;
+  isCookedOrders?: boolean;
+  orders: SeeOrdersQuery["seeOrders"]["result"];
 }) => {
   const navigate = useNavigate();
   const [pickupOrderMutation, { loading: pickupLoading }] =
@@ -60,7 +42,7 @@ const OrderList = ({
     }
   };
 
-  return (
+  return !orders ? null : (
     <div className="flex flex-col gap-4 mt-4">
       {orders.map(order => (
         <div

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
-import Loading from "../Components/Loading";
-import OrderList from "../Components/OrderList";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Loading from "../components/Loading";
+import OrderList from "../components/OrderList";
 import { useSeeOrdersQuery } from "../generated/graphql";
 
 gql`
@@ -14,6 +14,14 @@ gql`
         id
         createdAt
         location
+        customer {
+          id
+          email
+        }
+        restaurant {
+          id
+          name
+        }
         status
       }
     }
