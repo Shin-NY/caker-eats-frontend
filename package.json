@@ -31,7 +31,7 @@
     "start": "react-scripts start",
     "prestart": "npm run tailwind:build",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
+    "test": "react-scripts test ./routes --watchAll=false",
     "test:cov": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "codegen": "graphql-codegen --config codegen.yml"
@@ -64,7 +64,6 @@
   "jest":{
     "collectCoverageFrom": [
       "./src/components/**/*.tsx",
-      "./src/routers/**/*.tsx",
       "./src/routes/**/*.tsx"
     ]
   }

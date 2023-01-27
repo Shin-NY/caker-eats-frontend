@@ -7,7 +7,7 @@ import Loading from "../components/Loading";
 import { useLoginMutation } from "../generated/graphql";
 import { onLogIn } from "../variables";
 
-gql`
+export const LoginMutationDoc = gql`
   mutation login($input: LoginInput!) {
     login(input: $input) {
       ok
@@ -78,7 +78,11 @@ const Login = () => {
           {formErrors?.password && (
             <span className=" error">{formErrors.password.message}</span>
           )}
-          <button onClick={handleSubmit(onValid)} className="button">
+          <button
+            role={"button"}
+            onClick={handleSubmit(onValid)}
+            className="button"
+          >
             {loading ? <Loading /> : "Log in"}
           </button>
           {loginError && <span className="error">{loginError}</span>}

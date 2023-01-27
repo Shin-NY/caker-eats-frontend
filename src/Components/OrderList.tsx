@@ -48,6 +48,7 @@ const OrderList = ({
         <div
           onClick={() => (isCookedOrders ? null : onClickOrder(order?.id!))}
           key={order.id}
+          role="listitem"
           className={`${
             !isCookedOrders && "cursor-pointer"
           } p-4 border border-black rounded grid grid-cols-2`}

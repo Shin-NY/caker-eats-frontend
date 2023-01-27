@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { OrderStatus } from "../../generated/graphql";
 import OrderList from "../OrderList";
+import "@testing-library/jest-dom/extend-expect";
 
 describe("<OrderList />", () => {
   it("should show orders", () => {
@@ -27,5 +28,6 @@ describe("<OrderList />", () => {
     screen.getByText(/restaurant: restaurant name/i);
     screen.getByText(/to: location/i);
     screen.getByText(OrderStatus.Pending);
+    expect(screen.getByRole("listitem")).toHaveClass("cursor-pointer");
   });
 });
