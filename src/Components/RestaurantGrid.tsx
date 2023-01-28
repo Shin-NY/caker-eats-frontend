@@ -16,10 +16,9 @@ const RestaurantGrid = ({
           className=" flex  flex-col"
         >
           <img
-            role={"img"}
             className="rounded-sm w-full h-48 object-cover"
             src={restaurant.imageUrl || ""}
-            alt=""
+            alt="restaurant cover"
           />
           <h2 className="mt-1 text-lg font-medium">{restaurant.name}</h2>
         </Link>

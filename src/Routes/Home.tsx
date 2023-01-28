@@ -12,7 +12,7 @@ import {
   useSeeRestaurantsQuery,
 } from "../generated/graphql";
 
-gql`
+export const SeeCategoryDoc = gql`
   query SeeCategory($input: SeeCategoryInput!) {
     seeCategory(input: $input) {
       ok
@@ -30,7 +30,7 @@ gql`
   }
 `;
 
-gql`
+export const SeeCategoriesDoc = gql`
   query SeeCategories {
     seeCategories {
       ok
@@ -45,7 +45,7 @@ gql`
   }
 `;
 
-gql`
+export const SeeRestaurantsDoc = gql`
   query SeeRestaurants($input: SeeRestaurantsInput!) {
     seeRestaurants(input: $input) {
       ok
@@ -131,7 +131,7 @@ const Home = () => {
                 <img
                   className="h-full w-20 object-cover"
                   src={category.imageUrl || ""}
-                  alt=""
+                  alt="category cover"
                 />
               </button>
             ))}

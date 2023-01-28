@@ -22,7 +22,10 @@ describe("<RestaurantGrid />", () => {
       "href",
       "/restaurants/1"
     );
-    expect(screen.getByRole("img")).toHaveAttribute("src", "image");
+    expect(screen.getByAltText(/restaurant cover/i)).toHaveAttribute(
+      "src",
+      "image"
+    );
     screen.getByText("restaurant name");
   });
 });

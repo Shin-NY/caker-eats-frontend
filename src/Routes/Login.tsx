@@ -78,11 +78,7 @@ const Login = () => {
           {formErrors?.password && (
             <span className=" error">{formErrors.password.message}</span>
           )}
-          <button
-            role={"button"}
-            onClick={handleSubmit(onValid)}
-            className="button"
-          >
+          <button onClick={handleSubmit(onValid)} className="button">
             {loading ? <Loading /> : "Log in"}
           </button>
           {loginError && <span className="error">{loginError}</span>}

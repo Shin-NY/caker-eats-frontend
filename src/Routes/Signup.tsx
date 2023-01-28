@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import Loading from "../components/Loading";
 import { UserRole, useCreateUserMutation } from "../generated/graphql";
 
-gql`
+export const CreateUserMutationDoc = gql`
   mutation createUser($input: CreateUserInput!) {
     createUser(input: $input) {
       ok

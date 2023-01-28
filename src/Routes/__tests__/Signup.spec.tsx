@@ -2,28 +2,27 @@ import { MockedProvider } from "@apollo/client/testing";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
-import Login, { LoginMutationDoc } from "../Login";
+import { UserRole } from "../../generated/graphql";
+import Signup, { CreateUserMutationDoc } from "../Signup";
 
-const mockedNavigate = jest.fn();
+const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => {
   return {
     ...jest.requireActual("react-router-dom"),
-    useNavigate: () => {
-      return mockedNavigate;
-    },
+    useNavigate: () => mockNavigate,
   };
 });
 
-describe("<Login />", () => {
+describe("<Signup />", () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  it("should show login error", async () => {
+  it("should show signup error", async () => {
     render(
       <MockedProvider>
         <BrowserRouter>
-          <Login />
+          <Signup />
         </BrowserRouter>
       </MockedProvider>
     );
@@ -34,25 +33,29 @@ describe("<Login />", () => {
     await waitFor(() => {
       screen.getByText(/invalid email format/i);
       screen.getByText(/password is required/i);
+      screen.getByText(/password confirm is required/i);
     });
   });
-  it("should login", async () => {
+  it("should signup", async () => {
     render(
       <MockedProvider
         mocks={[
           {
             request: {
-              query: LoginMutationDoc,
+              query: CreateUserMutationDoc,
               variables: {
-                input: { email: "valid@email.com", password: "password" },
+                input: {
+                  email: "valid@email.com",
+                  password: "password",
+                  role: UserRole.Customer,
+                },
               },
             },
             result: {
               data: {
-                login: {
+                createUser: {
                   ok: true,
                   error: null,
-                  token: "token",
                 },
               },
             },
@@ -60,18 +63,20 @@ describe("<Login />", () => {
         ]}
       >
         <BrowserRouter>
-          <Login />
+          <Signup />
         </BrowserRouter>
       </MockedProvider>
     );
     const email = screen.getByPlaceholderText(/email/i);
     userEvent.type(email, "valid@email.com");
-    const password = screen.getByPlaceholderText(/password/i);
+    const password = screen.getByPlaceholderText("password");
     userEvent.type(password, "password");
+    const passwordConfirm = screen.getByPlaceholderText(/password confirm/i);
+    userEvent.type(passwordConfirm, "password");
     const button = screen.getByRole("button");
     userEvent.click(button);
     await waitFor(() => {
-      expect(mockedNavigate).toBeCalledWith("/");
+      expect(mockNavigate).toBeCalledWith("/login");
     });
   });
 });
