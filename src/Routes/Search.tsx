@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import RestaurantGrid from "../components/RestaurantGrid";
 import { useSearchRestaurantQuery } from "../generated/graphql";
 
-gql`
+export const SearchRestaurantDoc = gql`
   query SearchRestaurant($input: SearchRestaurantInput!) {
     searchRestaurant(input: $input) {
       ok

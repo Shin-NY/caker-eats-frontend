@@ -120,6 +120,7 @@ const Home = () => {
           <div className="shared-width grid grid-cols-6 gap-6">
             {SeeCategoriesData?.seeCategories.result?.map(category => (
               <button
+                role={"group"}
                 key={category.id}
                 onClick={() => onClickCategory(category.slug)}
                 className={`${
