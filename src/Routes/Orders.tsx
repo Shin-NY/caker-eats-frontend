@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import OrderList from "../components/OrderList";
 import { useSeeOrdersQuery } from "../generated/graphql";
 
-gql`
+export const SeeOrdersDoc = gql`
   query SeeOrders {
     seeOrders {
       ok
@@ -40,7 +40,7 @@ const Orders = () => {
         <h1 className="text-2xl font-bold">Orders</h1>
         <OrderList
           isCookedOrders={false}
-          orders={ordersData?.seeOrders.result?.slice().reverse() || []}
+          orders={ordersData?.seeOrders.result?.slice().reverse()}
         />
       </div>
       <Footer />

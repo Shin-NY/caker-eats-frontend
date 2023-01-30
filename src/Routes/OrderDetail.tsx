@@ -12,7 +12,7 @@ import {
 } from "../generated/graphql";
 import useMe from "../hooks/useMe";
 
-gql`
+export const EditOrderStatusDoc = gql`
   mutation EditOrderStatus($input: EditOrderStatusInput!) {
     editOrderStatus(input: $input) {
       ok
@@ -21,7 +21,7 @@ gql`
   }
 `;
 
-gql`
+export const SeeOrderDoc = gql`
   query SeeOrder($input: SeeOrderInput!) {
     seeOrder(input: $input) {
       ok
