@@ -10,7 +10,7 @@ import {
 } from "../generated/graphql";
 import { uploadImage } from "../utils";
 
-gql`
+export const CreateRestaurantDoc = gql`
   mutation CreateRestaurant($input: CreateRestaurantInput!) {
     createRestaurant(input: $input) {
       ok
@@ -88,6 +88,7 @@ const CreateRestaurant = () => {
           <select
             {...register("categorySlug", { required: "Category is required" })}
             className="input"
+            role={"listbox"}
           >
             {categoriesData?.seeCategories.result?.map(category => (
               <option key={category.id} value={category.slug}>

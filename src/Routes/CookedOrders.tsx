@@ -10,7 +10,7 @@ import {
   useSeeCookedOrdersQuery,
 } from "../generated/graphql";
 
-const ORDER_COOKED_SUBSCRIPTION = gql`
+export const ORDER_COOKED_SUBSCRIPTION = gql`
   subscription OrderCooked {
     orderCooked {
       id
@@ -29,7 +29,7 @@ const ORDER_COOKED_SUBSCRIPTION = gql`
   }
 `;
 
-gql`
+export const SeeCookedOrdersDoc = gql`
   query SeeCookedOrders($input: SeeCookedOrdersInput!) {
     seeCookedOrders(input: $input) {
       ok

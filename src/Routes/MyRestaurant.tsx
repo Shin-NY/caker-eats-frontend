@@ -6,7 +6,7 @@ import Loading from "../components/Loading";
 import { useSeeRestaurantLazyQuery } from "../generated/graphql";
 import useMe from "../hooks/useMe";
 
-gql`
+export const SeeRestaurantDoc = gql`
   query SeeRestaurant($input: SeeRestaurantInput!) {
     seeRestaurant(input: $input) {
       ok
@@ -62,7 +62,7 @@ const MyRestaurant = () => {
           <img
             className=" w-full h-72 object-cover"
             src={data?.seeRestaurant.result?.imageUrl || ""}
-            alt=""
+            alt="restaurant cover"
           />
           <div className="flex flex-col items-center">
             <div className=" shared-width">
@@ -86,7 +86,7 @@ const MyRestaurant = () => {
                     <img
                       className=" rounded-sm w-full h-48 object-cover"
                       src={dish.imageUrl || ""}
-                      alt=""
+                      alt="dish cover"
                     />
                     <div className="mt-1 flex justify-between items-center">
                       <h2 className="font-medium">{dish.name}</h2>

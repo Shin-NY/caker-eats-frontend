@@ -7,7 +7,7 @@ import { useCreateDishMutation } from "../generated/graphql";
 import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../utils";
 
-gql`
+export const CreateDishDoc = gql`
   mutation CreateDish($input: CreateDishInput!) {
     createDish(input: $input) {
       ok
@@ -44,6 +44,7 @@ const CreateDish = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IForm>();
+
   const onValid: SubmitHandler<IForm> = async ({
     name,
     price,
@@ -80,7 +81,7 @@ const CreateDish = () => {
         <input
           {...register("name", { required: "Name is required" })}
           className="input"
-          placeholder="name"
+          placeholder="dish name"
         />
         {errors.name && <span className="error">{errors.name.message}</span>}
 
@@ -114,6 +115,7 @@ const CreateDish = () => {
                 setOptionKeys(prev => [...prev, Date.now()]);
               }}
               className="button w-24"
+              data-testid="add-option-button"
             >
               Add option
             </button>
@@ -123,7 +125,7 @@ const CreateDish = () => {
               <input
                 {...register(`option-name-${optionKey}`)}
                 className="input w-32"
-                placeholder="name"
+                placeholder="option name"
               />
               <input
                 {...register(`option-extra-${optionKey}`)}
@@ -147,7 +149,11 @@ const CreateDish = () => {
             </div>
           ))}
         </div>
-        <button onClick={handleSubmit(onValid)} className="button">
+        <button
+          onClick={handleSubmit(onValid)}
+          className="button"
+          data-testid="create-dish-button"
+        >
           {createLoading ? <Loading /> : "Create dish"}
         </button>
         {createError && <span className="error">{createError}</span>}
