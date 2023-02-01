@@ -1,0 +1,10 @@
+{
+  "data": {
+    "createUser": {
+      "ok": true,
+      "error": null,
+      "__typename": "CreateUserOutput"
+    }
+  }
+}
+
