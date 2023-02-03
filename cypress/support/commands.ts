@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="../support" />
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -36,3 +37,12 @@
 //   }
 // }
 import "@testing-library/cypress/add-commands";
+Cypress.Commands.add("login", (email: string, password: string) => {
+  cy.visit("/login");
+  cy.get(".button").click();
+  cy.get('[name="email"]').type(email);
+  cy.get('[name="password"]').type(password);
+  cy.get(".button").click();
+  cy.url().should("eq", "http://localhost:3000/");
+});
+

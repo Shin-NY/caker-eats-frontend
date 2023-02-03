@@ -40,7 +40,7 @@ const Orders = () => {
         <h1 className="text-2xl font-bold">Orders</h1>
         <OrderList
           isCookedOrders={false}
-          orders={ordersData?.seeOrders.result?.slice().reverse()}
+          orders={ordersData?.seeOrders.result}
         />
       </div>
       <Footer />

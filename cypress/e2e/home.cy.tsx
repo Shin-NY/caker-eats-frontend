@@ -16,8 +16,18 @@ describe("home", () => {
   });
   it("should search restaurants", () => {
     cy.visit("/");
-    cy.findByPlaceholderText("Search restaurants...").type("cake{enter}");
-    cy.url().should("contain", "/search/cake");
+    cy.url({ timeout: 10000 }).should("eq", "http://localhost:3000/");
+    cy.findAllByPlaceholderText("Search restaurants...")
+      .last()
+      .type("cake{enter}");
+    cy.url({ timeout: 10000 }).should("contain", "/search/cake");
     cy.findAllByRole("gridcell");
+  });
+  it("should go to restaurant detail", () => {
+    cy.visit("/");
+    cy.url({ timeout: 10000 }).should("eq", "http://localhost:3000/");
+    cy.findAllByRole("gridcell").first().click();
+    cy.url({ timeout: 10000 }).should("contain", "/restaurants/");
+    cy.findByAltText("restaurant cover");
   });
 });
