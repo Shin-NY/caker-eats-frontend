@@ -134,7 +134,11 @@ const RestaurantDetail = () => {
                   </div>
                   <div className="w-full flex gap-2 overflow-x-auto">
                     {orderDishes.map((orderDish, index) => (
-                      <div className="w-32" key={index}>
+                      <div
+                        className="w-32"
+                        key={index}
+                        data-testid="order-dish"
+                      >
                         <div className="flex gap-3">
                           <h4 className="font-medium">{orderDish.name}</h4>
                           <h5>{orderDish.count}</h5>

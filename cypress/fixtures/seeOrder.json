@@ -1,0 +1,45 @@
+{
+  "data": {
+    "seeOrder": {
+      "ok": true,
+      "error": null,
+      "result": {
+        "id": 1,
+        "createdAt": "createdAt",
+        "dishes": [
+          {
+            "dishId": 1,
+            "count": 1,
+            "options": [
+              {
+                "name": "option name"
+              }
+            ]
+          }
+        ],
+        "location": "location",
+        "customer": {
+          "id": 1,
+          "email": "customer@gmail.com"
+        },
+        "restaurant": {
+          "id": 1,
+          "name": "restaurant name",
+          "menu": [
+            {
+              "id": 1,
+              "name": "dish name"
+            }
+          ],
+          "imageUrl": "imageUrl"
+        },
+        "driver": {
+          "id": 1,
+          "email": "driver@gmail.com"
+        },
+        "status": "Pending"
+      },
+      "__typename": "SeeOrderOutput"
+    }
+  }
+}

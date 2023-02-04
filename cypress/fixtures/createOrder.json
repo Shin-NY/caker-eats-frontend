@@ -1,0 +1,10 @@
+{
+  "data": {
+    "createOrder": {
+      "ok": true,
+      "error": null,
+      "orderId": 1,
+      "__typename": "CreateOrderOutput"
+    }
+  }
+}

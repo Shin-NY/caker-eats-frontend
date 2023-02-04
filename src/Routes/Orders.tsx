@@ -38,10 +38,7 @@ const Orders = () => {
       <Header />
       <div className="shared-width py-16">
         <h1 className="text-2xl font-bold">Orders</h1>
-        <OrderList
-          isCookedOrders={false}
-          orders={ordersData?.seeOrders.result}
-        />
+        <OrderList orders={ordersData?.seeOrders.result} />
       </div>
       <Footer />
     </div>
