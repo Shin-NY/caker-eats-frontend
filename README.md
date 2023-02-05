@@ -4,4 +4,4 @@ Clone Uber-Eats frontend with react and tailwind
 
 # todo
 
-react component testing, e2e testing
+e2e testing

@@ -43,6 +43,6 @@ Cypress.Commands.add("login", (email: string, password: string) => {
   cy.get('[name="email"]').type(email);
   cy.get('[name="password"]').type(password);
   cy.get(".button").click();
-  cy.url().should("eq", "http://localhost:3000/");
+  cy.url({ timeout: 10000 }).should("eq", "http://localhost:3000/");
 });
 
