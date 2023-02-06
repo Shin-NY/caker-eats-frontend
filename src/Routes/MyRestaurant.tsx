@@ -54,7 +54,9 @@ const MyRestaurant = () => {
         <div className="w-full h-72 flex justify-center items-center flex-col gap-2">
           <h3 className=" text-lg font-medium">You don't have a restaurant</h3>
           <Link to={"/create-restaurant"}>
-            <button className="button">Create restaurant</button>
+            <button className="button" data-testid="create-restaurant-btn">
+              Create restaurant
+            </button>
           </Link>
         </div>
       ) : (

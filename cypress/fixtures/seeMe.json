@@ -1,0 +1,14 @@
+{
+  "data": {
+    "seeMe": {
+      "ok": true,
+      "error": null,
+      "result": {
+        "id": 1,
+        "role": "Owner",
+        "verified": true,
+        "restaurantId": null
+      }
+    }
+  }
+}

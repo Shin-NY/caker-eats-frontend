@@ -1,0 +1,10 @@
+{
+  "data": {
+    "pickupOrder": {
+      "ok": true,
+      "orderId": 1,
+      "error": null,
+      "__typename": "PickupOrder"
+    }
+  }
+}
