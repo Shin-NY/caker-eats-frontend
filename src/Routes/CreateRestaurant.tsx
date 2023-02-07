@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
@@ -8,6 +8,7 @@ import {
   useCreateRestaurantMutation,
   useSeeCategoriesQuery,
 } from "../generated/graphql";
+import useMe from "../hooks/useMe";
 import { uploadImage } from "../utils";
 
 export const CreateRestaurantDoc = gql`
@@ -28,6 +29,7 @@ interface IForm {
 
 const CreateRestaurant = () => {
   const navigate = useNavigate();
+  const { data: meData, loading: meLoading } = useMe();
   const [createError, setCreateError] = useState("");
   const { data: categoriesData, loading: categoriesLoading } =
     useSeeCategoriesQuery();
@@ -50,15 +52,27 @@ const CreateRestaurant = () => {
     image,
     categorySlug,
   }) => {
-    const { ok, url } = await uploadImage(image[0]);
-    if (ok) {
+    if (image[0]) {
+      const { ok, url } = await uploadImage(image[0]);
+      if (ok) {
+        createRestaurantMutation({
+          variables: { input: { imageUrl: url, name, categorySlug } },
+        });
+      }
+    } else {
       createRestaurantMutation({
-        variables: { input: { imageUrl: url, name, categorySlug } },
+        variables: { input: { name, categorySlug } },
       });
     }
   };
 
-  return categoriesLoading ? (
+  useEffect(() => {
+    if (meData?.seeMe.result?.restaurantId) {
+      navigate("/", { replace: true });
+    }
+  }, [meData, navigate]);
+
+  return categoriesLoading || meLoading ? (
     <Loading />
   ) : (
     <div>
@@ -100,7 +114,11 @@ const CreateRestaurant = () => {
             <span className="error">{errors.categorySlug.message}</span>
           )}
 
-          <button onClick={handleSubmit(onValid)} className="button">
+          <button
+            onClick={handleSubmit(onValid)}
+            className="button"
+            data-testid="create-restaurant-btn"
+          >
             {createLoading ? <Loading /> : "Create restaurant"}
           </button>
           {createError && <span className="error">{createError}</span>}

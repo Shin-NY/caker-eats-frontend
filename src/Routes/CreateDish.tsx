@@ -53,19 +53,32 @@ const CreateDish = () => {
     ...rest
   }) => {
     if (meData?.seeMe.result?.restaurantId && !createLoading) {
-      const { ok, url } = await uploadImage(image[0]);
       const options = optionKeys.map(optionKey => {
         const name = rest[`option-name-${optionKey}`];
         const extra = +rest[`option-extra-${optionKey}`];
         return { name, extra };
       });
-      if (ok) {
-        createDishMutation({
-          variables: {
-            input: { name, imageUrl: url, price: +price, description, options },
-          },
-        });
+      if (image[0]) {
+        const { ok, url } = await uploadImage(image[0]);
+        if (ok) {
+          createDishMutation({
+            variables: {
+              input: {
+                name,
+                imageUrl: url,
+                price: +price,
+                description,
+                options,
+              },
+            },
+          });
+        }
       }
+      createDishMutation({
+        variables: {
+          input: { name, price: +price, description, options },
+        },
+      });
     }
   };
 
