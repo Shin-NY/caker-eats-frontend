@@ -11,6 +11,7 @@ import OrderDetail from "../routes/orderDetail";
 import Orders from "../routes/orders";
 import CookedOrders from "../routes/cookedOrders";
 import MyRestaurant from "../routes/myRestaurant";
+import CreateCategory from "../routes/createCategory";
 
 const Router = () => {
   const { data: meData, loading: meLoading } = useMe();
@@ -29,6 +30,8 @@ const Router = () => {
 
   const driverRoutes = [<Route key={1} path="/" element={<CookedOrders />} />];
 
+  const adminRoutes = [<Route key={1} path="/" element={<CreateCategory />} />];
+
   return meLoading ? (
     <Loading />
   ) : (
@@ -37,6 +40,7 @@ const Router = () => {
         {meData?.seeMe.result?.role === UserRole.Customer && customerRoutes}
         {meData?.seeMe.result?.role === UserRole.Owner && ownerRoutes}
         {meData?.seeMe.result?.role === UserRole.Driver && driverRoutes}
+        {meData?.seeMe.result?.role === UserRole.Admin && adminRoutes}
         <Route path="/orders/:id" element={<OrderDetail />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>

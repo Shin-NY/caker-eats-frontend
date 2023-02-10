@@ -30,7 +30,6 @@
     "tailwind:build": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/styles.css",
     "tailwind:watch": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/styles.css --watch",
     "start": "react-scripts start",
-    "prestart": "npm run tailwind:watch",
     "build": "react-scripts build",
     "prebuild": "npm run tailwind:build",
     "test": "react-scripts test --watchAll=false",
