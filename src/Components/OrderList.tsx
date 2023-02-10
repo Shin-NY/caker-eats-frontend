@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { SeeOrdersQuery, usePickupOrderMutation } from "../generated/graphql";
-import Loading from "./Loading";
+import Loading from "./loading";
 
 gql`
   mutation PickupOrder($input: PickupOrderInput!) {

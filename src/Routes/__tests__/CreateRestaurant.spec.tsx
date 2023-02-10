@@ -2,8 +2,8 @@ import { MockedProvider } from "@apollo/client/testing";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
-import CreateRestaurant, { CreateRestaurantDoc } from "../CreateRestaurant";
-import { SeeCategoriesDoc } from "../Home";
+import CreateRestaurant, { CreateRestaurantDoc } from "../createRestaurant";
+import { SeeCategoriesDoc } from "../home";
 import * as utils from "../../utils";
 
 const mockNavigate = jest.fn();

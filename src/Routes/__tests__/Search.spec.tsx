@@ -1,7 +1,7 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { render, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import Search, { SearchRestaurantDoc } from "../Search";
+import Search, { SearchRestaurantDoc } from "../search";
 
 const mockRestaurantGrid = jest.fn((params: any) => <span>test</span>);
 

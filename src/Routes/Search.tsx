@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
-import RestaurantGrid from "../components/RestaurantGrid";
+import Header from "../components/header";
+import Loading from "../components/loading";
+import RestaurantGrid from "../components/restaurantGrid";
 import { useSearchRestaurantQuery } from "../generated/graphql";
 
 export const SearchRestaurantDoc = gql`

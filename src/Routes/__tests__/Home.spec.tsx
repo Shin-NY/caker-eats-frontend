@@ -5,7 +5,7 @@ import Home, {
   SeeCategoriesDoc,
   SeeCategoryDoc,
   SeeRestaurantsDoc,
-} from "../Home";
+} from "../home";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 

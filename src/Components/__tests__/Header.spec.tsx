@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import Header from "../Header";
+import Header from "../header";
 import { MockedProvider } from "@apollo/client/testing";
 import { BrowserRouter } from "react-router-dom";
 import { SeeMeQueryDoc } from "../../hooks/useMe";

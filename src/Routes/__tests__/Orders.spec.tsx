@@ -2,7 +2,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { render, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { OrderStatus } from "../../generated/graphql";
-import Orders, { SeeOrdersDoc } from "../Orders";
+import Orders, { SeeOrdersDoc } from "../orders";
 
 const mockOrderList = jest.fn((props: any) => <span>mocked order list</span>);
 jest.mock("../../components/OrderList", () => {

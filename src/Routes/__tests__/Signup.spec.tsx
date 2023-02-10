@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
 import { UserRole } from "../../generated/graphql";
-import Signup, { CreateUserMutationDoc } from "../Signup";
+import Signup, { CreateUserMutationDoc } from "../signup";
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => {

@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../components/loading";
 import { UserRole } from "../generated/graphql";
 import useMe from "../hooks/useMe";
-import Home from "../routes/Home";
-import CreateRestaurant from "../routes/CreateRestaurant";
-import RestaurantDetail from "../routes/RestaurantDetail";
-import Search from "../routes/Search";
-import CreateDish from "../routes/CreateDish";
-import OrderDetail from "../routes/OrderDetail";
-import Orders from "../routes/Orders";
-import CookedOrders from "../routes/CookedOrders";
-import MyRestaurant from "../routes/MyRestaurant";
+import Home from "../routes/home";
+import CreateRestaurant from "../routes/createRestaurant";
+import RestaurantDetail from "../routes/restaurantDetail";
+import Search from "../routes/search";
+import CreateDish from "../routes/createDish";
+import OrderDetail from "../routes/orderDetail";
+import Orders from "../routes/orders";
+import CookedOrders from "../routes/cookedOrders";
+import MyRestaurant from "../routes/myRestaurant";
 
 const Router = () => {
   const { data: meData, loading: meLoading } = useMe();

@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { client } from "../../apollo";
 import { OrderStatus, UserRole } from "../../generated/graphql";
 import { SeeMeQueryDoc } from "../../hooks/useMe";
-import OrderDetail, { EditOrderStatusDoc, SeeOrderDoc } from "../OrderDetail";
+import OrderDetail, { EditOrderStatusDoc, SeeOrderDoc } from "../orderDetail";
 
 jest.mock("react-router-dom", () => {
   return {

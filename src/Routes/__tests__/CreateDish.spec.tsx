@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
 import { UserRole } from "../../generated/graphql";
 import { SeeMeQueryDoc } from "../../hooks/useMe";
-import CreateDish, { CreateDishDoc } from "../CreateDish";
+import CreateDish, { CreateDishDoc } from "../createDish";
 import * as utils from "../../utils";
 
 const mockNavigate = jest.fn();

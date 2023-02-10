@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { UserRole } from "../../generated/graphql";
 import { SeeMeQueryDoc } from "../../hooks/useMe";
-import MyRestaurant, { SeeRestaurantDoc } from "../MyRestaurant";
+import MyRestaurant, { SeeRestaurantDoc } from "../myRestaurant";
 import "@testing-library/jest-dom/extend-expect";
 
 describe("<MyRestaurant />", () => {

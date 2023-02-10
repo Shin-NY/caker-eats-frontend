@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import RestaurantGrid from "../RestaurantGrid";
+import RestaurantGrid from "../restaurantGrid";
 import "@testing-library/jest-dom/extend-expect";
 
 describe("<RestaurantGrid />", () => {

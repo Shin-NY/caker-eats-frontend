@@ -6,7 +6,7 @@ import { SeeMeQueryDoc } from "../../hooks/useMe";
 import RestaurantDetail, {
   CreateOrderDoc,
   SeeRestaurantDoc,
-} from "../RestaurantDetail";
+} from "../restaurantDetail";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 

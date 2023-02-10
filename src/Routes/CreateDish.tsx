@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Loading from "../components/Loading";
+import Loading from "../components/loading";
 import useMe from "../hooks/useMe";
 import { useCreateDishMutation } from "../generated/graphql";
 import { useNavigate } from "react-router-dom";

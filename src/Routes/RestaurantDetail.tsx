@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
+import Footer from "../components/footer";
+import Header from "../components/header";
+import Loading from "../components/loading";
 import {
   useCreateOrderMutation,
   UserRole,

@@ -2,7 +2,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { OrderStatus } from "../../generated/graphql";
-import OrderList from "../OrderList";
+import OrderList from "../orderList";
 import "@testing-library/jest-dom/extend-expect";
 
 describe("<OrderList />", () => {

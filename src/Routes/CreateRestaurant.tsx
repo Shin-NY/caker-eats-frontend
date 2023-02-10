@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
+import Header from "../components/header";
+import Loading from "../components/loading";
 import {
   useCreateRestaurantMutation,
   useSeeCategoriesQuery,

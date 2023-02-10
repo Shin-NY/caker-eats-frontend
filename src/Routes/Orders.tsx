@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
-import OrderList from "../components/OrderList";
+import Footer from "../components/footer";
+import Header from "../components/header";
+import Loading from "../components/loading";
+import OrderList from "../components/orderList";
 import { useSeeOrdersQuery } from "../generated/graphql";
 
 export const SeeOrdersDoc = gql`

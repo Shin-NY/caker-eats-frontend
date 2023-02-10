@@ -5,7 +5,7 @@ import { OrderStatus } from "../../generated/graphql";
 import CookedOrders, {
   ORDER_COOKED_SUBSCRIPTION,
   SeeCookedOrdersDoc,
-} from "../CookedOrders";
+} from "../cookedOrders";
 
 const mockOrderList = jest.fn((props: any) => <span>mocked OrderList</span>);
 jest.mock("../../components/OrderList", () => {

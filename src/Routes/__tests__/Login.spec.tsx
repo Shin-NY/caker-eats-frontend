@@ -2,7 +2,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
-import Login, { LoginMutationDoc } from "../Login";
+import Login, { LoginMutationDoc } from "../login";
 
 const mockedNavigate = jest.fn();
 jest.mock("react-router-dom", () => {

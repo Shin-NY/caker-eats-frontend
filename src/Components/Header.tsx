@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserRole } from "../generated/graphql";
 import useMe from "../hooks/useMe";
 import { onLogOut, tokenVar } from "../variables";
-import Loading from "./Loading";
+import Loading from "./loading";
 
 interface IForm {
   key: string;

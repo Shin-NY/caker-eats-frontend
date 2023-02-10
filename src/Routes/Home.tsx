@@ -2,10 +2,10 @@ import { gql } from "@apollo/client";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
-import RestaurantGrid from "../components/RestaurantGrid";
+import Footer from "../components/footer";
+import Header from "../components/header";
+import Loading from "../components/loading";
+import RestaurantGrid from "../components/restaurantGrid";
 import {
   useSeeCategoriesQuery,
   useSeeCategoryLazyQuery,

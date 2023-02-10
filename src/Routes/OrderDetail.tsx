@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { client } from "../apollo";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
+import Footer from "../components/footer";
+import Header from "../components/header";
+import Loading from "../components/loading";
 import {
   OrderStatus,
   useEditOrderStatusMutation,
