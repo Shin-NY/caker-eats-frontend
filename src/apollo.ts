@@ -10,6 +10,7 @@ import { onError } from "@apollo/client/link/error";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { getServerUrl } from "./utils";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(LS_TOKEN);
@@ -32,12 +33,12 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql/",
+  uri: getServerUrl({}) + "/graphql",
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://localhost:4000/graphql",
+    url: getServerUrl({ ws: true }) + "/graphql",
     connectionParams: {
       "x-token": localStorage.getItem("token"),
     },
