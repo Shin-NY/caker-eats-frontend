@@ -1,5 +1,5 @@
 # caker-eats-frontend
 
 https://caker-eats.netlify.app
-
-Clone Uber-Eats frontend with react and tailwind
+Online food ordering and delivery service backend like Uber Eats with Nest.js and GraphQL.
+This repo is study-purposed.
