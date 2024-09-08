@@ -25,7 +25,7 @@ const Header = () => {
     navigate("/");
   };
 
-  return meLoading ? (
+  return token && meLoading ? (
     <Loading />
   ) : (
     <div>
