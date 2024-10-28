@@ -13,6 +13,8 @@ import {
   useSeeRestaurantQuery,
 } from "../generated/graphql";
 import useMe from "../hooks/useMe";
+import * as PortOne from "@portone/browser-sdk/v2";
+import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export const SeeRestaurantDoc = gql`
   query SeeRestaurant($input: SeeRestaurantInput!) {
@@ -60,8 +62,12 @@ const RestaurantDetail = () => {
       dishId: number;
       count: number;
       options?: { name: string }[];
+      total: number;
     }[]
   >([]);
+  const [totalInCart, setTotalInCart] = useState(0);
+  const [address, setAddress] = useState("");
+
   const navigate = useNavigate();
   const { data: meData, loading: meLoading } = useMe();
   const isCustomer = meData?.seeMe.result?.role === UserRole.Customer;
@@ -81,8 +87,36 @@ const RestaurantDetail = () => {
       },
     });
 
-  const onValid: SubmitHandler<IForm> = () => {
-    if (!createOrderLoading && id && orderDishes.length) {
+  const openAddressPopup = useDaumPostcodePopup();
+  const handleSelectAddress = () => {
+    openAddressPopup({ onComplete: ({ address }) => setAddress(address) });
+  };
+
+  const onValid: SubmitHandler<IForm> = async () => {
+    if (!createOrderLoading && id) {
+      if (!orderDishes.length) {
+        alert("add some dishes");
+        return;
+      }
+      if (!address) {
+        alert("select your address");
+        return;
+      }
+
+      const res = await PortOne.requestPayment({
+        storeId: "store-de610a35-a648-41ca-94af-39addaa909d6",
+        paymentId: crypto.randomUUID(),
+        orderName: `레스토랑 ${data?.seeRestaurant.result?.name} 음식 주문`,
+        totalAmount: totalInCart,
+        currency: "CURRENCY_KRW",
+        payMethod: "EASY_PAY",
+        channelKey: "channel-key-3b9ce7f7-13e0-4e83-acca-fe0810f85410",
+      });
+      if (!res || res.code) {
+        alert(res?.message || "error in purchase");
+        return;
+      }
+
       const dishes = orderDishes.map(orderDish => ({
         dishId: orderDish.dishId,
         count: orderDish.count,
@@ -92,7 +126,8 @@ const RestaurantDetail = () => {
         variables: {
           input: {
             dishes,
-            location: "서울시 강남구 청담동 123-123",
+            location: address,
+            txId: res.txId,
             restaurantId: +id,
           },
         },
@@ -124,12 +159,24 @@ const RestaurantDetail = () => {
                     {createOrderError && (
                       <span className="error">{createOrderError}</span>
                     )}
+                    <h4>Total: {totalInCart} 원</h4>
                     <button
                       onClick={handleSubmit(onValid)}
                       className="button w-40"
                       data-testid="order-button"
                     >
                       {createOrderLoading ? <Loading /> : "Order"}
+                    </button>
+                  </div>
+                  <div className="flex flex-col justify-between pb-2 border-r pr-3 border-gray-400">
+                    <h2 className="text-xl font-bold ">Address</h2>
+                    <h4>address: {address}</h4>
+                    <button
+                      onClick={handleSelectAddress}
+                      className="button w-40"
+                      data-testid="order-button"
+                    >
+                      Select
                     </button>
                   </div>
                   <div className="w-full flex gap-2 overflow-x-auto">
@@ -148,6 +195,7 @@ const RestaurantDetail = () => {
                             <h6>+{orderDishOption.name}</h6>
                           </div>
                         ))}
+                        <h4>Total: {orderDish.total} 원</h4>
                       </div>
                     ))}
                   </div>
@@ -180,21 +228,31 @@ const RestaurantDetail = () => {
                             data-testid="dish-button"
                             onClick={() => {
                               const values = getValues();
+                              const dishCount = +values[`${dish.id}-count`];
+                              let dishTotal = dish.price;
+
                               const options =
                                 dish.options
                                   ?.map((option, index) => {
-                                    if (values[`${dish.id}-option-${index}`])
+                                    if (values[`${dish.id}-option-${index}`]) {
+                                      dishTotal += option.extra || 0;
                                       return { name: option.name };
+                                    }
                                     return { name: "" };
                                   })
                                   .filter(option => option.name) || [];
+
+                              setTotalInCart(
+                                prev => prev + dishTotal * dishCount
+                              );
                               setOrderDishes(prev => [
                                 ...prev,
                                 {
                                   name: dish.name,
                                   dishId: dish.id,
-                                  count: +values[`${dish.id}-count`],
+                                  count: dishCount,
                                   options,
+                                  total: dishTotal * dishCount,
                                 },
                               ]);
                             }}

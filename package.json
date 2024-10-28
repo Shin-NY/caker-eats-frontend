@@ -8,6 +8,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@portone/browser-sdk": "^0.0.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -19,6 +20,7 @@
     "graphql": "^16.6.0",
     "graphql-ws": "^5.10.1",
     "react": "^18.2.0",
+    "react-daum-postcode": "^3.1.3",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.2",
     "react-router-dom": "^6.3.0",
@@ -71,4 +73,3 @@
     ]
   }
 }
-

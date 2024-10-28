@@ -57,6 +57,7 @@ export type CreateOrderInput = {
   dishes: Array<OrderDishInput>;
   location: Scalars['String'];
   restaurantId: Scalars['Float'];
+  txId: Scalars['String'];
 };
 
 export type CreateOrderOutput = {
@@ -174,7 +175,7 @@ export type EditDishOutput = {
 
 export type EditOrderStatusInput = {
   orderId: Scalars['Float'];
-  status?: InputMaybe<OrderStatus>;
+  status?: OrderStatus;
 };
 
 export type EditOrderStatusOutput = {
@@ -324,6 +325,7 @@ export type Order = {
   location: Scalars['String'];
   restaurant?: Maybe<Restaurant>;
   status: OrderStatus;
+  txId: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
@@ -442,7 +444,7 @@ export type Restaurant = {
 
 export type SearchRestaurantInput = {
   key: Scalars['String'];
-  page?: InputMaybe<Scalars['Float']>;
+  page?: Scalars['Float'];
 };
 
 export type SearchRestaurantOutput = {
@@ -461,7 +463,7 @@ export type SeeCategoriesOutput = {
 };
 
 export type SeeCategoryInput = {
-  page?: InputMaybe<Scalars['Float']>;
+  page?: Scalars['Float'];
   slug: Scalars['String'];
 };
 
@@ -474,7 +476,7 @@ export type SeeCategoryOutput = {
 };
 
 export type SeeCookedOrdersInput = {
-  page?: InputMaybe<Scalars['Float']>;
+  page?: Scalars['Float'];
 };
 
 export type SeeCookedOrdersOutput = {
@@ -529,7 +531,7 @@ export type SeeRestaurantOutput = {
 };
 
 export type SeeRestaurantsInput = {
-  page?: InputMaybe<Scalars['Float']>;
+  page?: Scalars['Float'];
 };
 
 export type SeeRestaurantsOutput = {

@@ -122,8 +122,8 @@ const OrderDetail = () => {
 
           <h2 className="font-medium">Dishes</h2>
           <div className="flex flex-col gap-2">
-            {orderData?.seeOrder.result?.dishes.map(dish => (
-              <div key={dish.dishId}>
+            {orderData?.seeOrder.result?.dishes.map((dish, dishIdx) => (
+              <div key={dish.dishId.toString() + dishIdx.toString()}>
                 <div className="flex gap-2">
                   <h3>
                     {
@@ -163,7 +163,7 @@ const OrderDetail = () => {
           {orderData?.seeOrder.result?.status}
         </h3>
         <h5 className="text-xs mt-4">
-          {orderData?.seeOrder.result?.createdAt}
+          {new Date(orderData?.seeOrder.result?.createdAt).toLocaleString()}
         </h5>
       </div>
       <Footer />
